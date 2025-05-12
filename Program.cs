@@ -10,6 +10,16 @@ namespace SeriesAnalyzer
     {
         static void Main(string[] args)
         {
+            
+            string seyHello(string s)
+            {
+                return $"Hello {s} !";   
+            }
+
+            Console.WriteLine(seyHello("yaakov"));
+
+
+            Console.ReadLine();
         }
     }
 }
