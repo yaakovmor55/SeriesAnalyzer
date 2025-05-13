@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Threading;
+
 
 namespace SeriesAnalyzer
 {
@@ -138,15 +138,18 @@ namespace SeriesAnalyzer
                 List<double> tempList = new List<double>(series);
                 for (int i = 0; i < tempList.Count-1; i++)
                 {
-                    for (int j = 0; j < tempList.Count-1; j++)
+                    bool flag = false;
+                    for (int j = 0; j < tempList.Count-i -1; j++)
                     {
                         if ( tempList[j] > tempList[j + 1])
                         {
                             temp = tempList[j];
                             tempList[j] = tempList[j + 1];
                             tempList[j + 1] = temp;
+                            flag = true;
                         }
                     }
+                    if(!flag) break;
                 }
               printSeries(tempList);  
             }
@@ -165,23 +168,39 @@ namespace SeriesAnalyzer
                         switch (chois)
                         {
                             case 1:
+                                Console.WriteLine("1- You chose to enter your own numbers,");
                                 numbers.Clear();
-                                GetSeriesFromUser(); break;
+                                GetSeriesFromUser();
+                                while (numbers.Count < 3)
+                                {
+                                    Console.WriteLine("\n You must enter at least 3 numbers!");
+                                    numbers.Clear();
+                                    GetSeriesFromUser();
+                                }
+                                break;
                             case 2:
+                                Console.WriteLine("2- You chose to see the numbers you entered,");
                                 printSeries(numbers); break;
                             case 3:
+                                Console.WriteLine("3- You chose to see the numbers in reverse order");
                                 ShowReversed(); break;
                             case 4:
+                                Console.WriteLine("4- You chose to arrange the numbers in ascending order.");
                                 sort(numbers); break;
                             case 5:
+                                Console.WriteLine("5- You chose to see the largest number");
                                 maxNumber(); break;
                             case 6:
+                                Console.WriteLine("6- You chose to see the smallest number");
                                 minNumber(); break;
                             case 7:
+                                Console.WriteLine("7- You chose to see the average of all numbers");
                                 Console.WriteLine($"The average of the series is: {Average(numbers)}"); break;
                             case 8:
+                                Console.WriteLine("8- You chose to see the amount of numbers entered.");
                                 Console.WriteLine($"The number of values in the series is: {seriesLength(numbers)}"); break;
                             case 9:
+                                Console.WriteLine("9- You chose to see the sum of all the numbers");
                                 Console.WriteLine($"The sum of all the values in the series is: {sumOfTheSeries(numbers)}"); break;
                             case 10:
                                 Console.WriteLine("The program has ended."); break;
@@ -229,20 +248,16 @@ namespace SeriesAnalyzer
                 if (!(isVallidArgs()))
                 {
                     GetSeriesFromUser();
-                    if (numbers.Count < 3)
-                    {
-                        Console.WriteLine("\n You must enter at least 3 numbers!");
-                        numbers.Clear();
-                        GetSeriesFromUser();
-                    }
+                    
 
                     userChois();
 
                 }
-                Console.WriteLine("Arguments were successfully received.");
-                userChois();
-                Thread.Sleep(3000);
-                Environment.Exit(0);
+                else
+                {
+                    Console.WriteLine("Arguments were successfully received.");
+                    userChois();
+                }
             }
             manager();
 
@@ -255,7 +270,7 @@ namespace SeriesAnalyzer
 
 
 
-            //Console.ReadLine();
+            Console.ReadLine();
         }
     }
 }
